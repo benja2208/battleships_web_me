@@ -38,39 +38,69 @@ class BattleshipsWeb < Sinatra::Base
     if $players.count == 1
       @player_1 = session[:name]
       session[:player] = :player_1
+      redirect '/game_1' if $players.count == 1
     else
       @player_2 = session[:name]
       session[:player] = :player_2
+      redirect '/game_2' if $players.count == 2
     end
-    redirect '/game' if $players.count == 2
+    # redirect '/game' if $players.count == 2
     erb :welcome
   end
 
 
-  get '/game' do
-    erb :game
+  get '/game_1' do
+    erb :game_1
   end
 
-  post '/game' do
+  get '/game_2' do
+    erb :game_2
+  end
+
+  post '/game_1' do
     @parameters = params
     $game.player_1.place_ship(Ship.send(@parameters[:ship].to_sym), @parameters[:coordinate].to_sym, @parameters[:direction].to_sym)
 
-    redirect '/gameplay' if $game.player_1.board.ships.count > 1
+    redirect '/gameplay_1' if $game.player_1.board.ships.count > 1
 
-    erb :game
+    erb :game_1
   end
 
-  get '/gameplay' do
+  post '/game_2' do
+    @parameters = params
+    $game.player_1.place_ship(Ship.send(@parameters[:ship].to_sym), @parameters[:coordinate].to_sym, @parameters[:direction].to_sym)
+
+    redirect '/gameplay_2' if $game.player_1.board.ships.count > 1
+
+    erb :game_2
+  end
+
+
+  get '/gameplay_1' do
     place_computer_ships
-    erb :gameplay
+    erb :gameplay_1
   end
 
-  post '/gameplay' do
+
+  get '/gameplay_2' do
+    place_computer_ships
+    erb :gameplay_2
+  end
+
+  post '/gameplay_1' do
     @coordinate = params[:coordinate]
     @player_1_result = $game.player_1.shoot(@coordinate.to_sym)
     @player_2_result = $game.player_2.shoot(generate_computer_coordinates)
     redirect '/winner' if $game.has_winner?
-    erb :gameplay
+    erb :gameplay_1
+  end
+
+  post '/gameplay_2' do
+    @coordinate = params[:coordinate]
+    @player_1_result = $game.player_1.shoot(@coordinate.to_sym)
+    @player_2_result = $game.player_2.shoot(generate_computer_coordinates)
+    redirect '/winner' if $game.has_winner?
+    erb :gameplay_2
   end
 
   get '/winner' do

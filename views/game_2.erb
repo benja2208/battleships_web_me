@@ -1,0 +1,32 @@
+<div>
+  <h1>Player: <%= session[:name] %></h1>
+  <pre><%= $game.own_board_view($game.player_2) %></pre>
+  <form method='post'>
+    <label>Please enter a coordinate:
+      <input type='text' name='coordinate'>
+    </label>
+    <br>
+    <label>Please enter a type of ship:
+       <select name='ship'>
+        <option value='destroyer'>Destroyer</option>
+        <option value='submarine'>Submarine</option>
+        <option value='cruiser'>Cruiser</option>
+        <option value='battleship'>Battleship</option>
+        <option value='aircraft_carrier'>Aircraft Carrier</option>
+      </select>
+    </label>
+    <br>
+    Please select a direction:
+    <label>Horizontal
+      <input type='radio' name='direction' value='horizontally' checked>
+    </label>
+    <br>
+    <label>Vertical
+      <input type='radio' name='direction' value='vertically'>
+    </label>
+    <br>
+      <input type='submit' value='Submit'>
+  </form>
+  <br>
+
+</div>
