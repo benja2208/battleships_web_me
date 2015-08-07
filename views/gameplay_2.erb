@@ -1,7 +1,7 @@
 <h1>Player 1: <%= session[:name] %></h1>
-<pre><%= $game.own_board_view($game.player_2) %></pre>
+<pre><%= $game.own_board_view($game.player_1) %></pre>
 <h1>Player 2: Computer</h1>
-<pre><%= $game.opponent_board_view($game.player_2) %></pre>
+<pre><%= $game.opponent_board_view($game.player_1) %></pre>
 <form method='post'>
   <label>Please enter a target:
     <input type='text' name='coordinate'>
